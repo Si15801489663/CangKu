@@ -1,0 +1,117 @@
+<!-- 导入header -->
+{include file='/public/header' /}
+    
+    <body style="background-color: #393D49">
+        <div class="x-box">
+            <div class="x-top">
+                <i class="layui-icon x-login-close">
+                    &#x1007;
+                </i>
+                <ul class="x-login-right">
+                    <li style="background-color: #F1C85F;" color="#F1C85F">
+                    </li>
+                    <li style="background-color: #EA569A;" color="#EA569A">
+                    </li>
+                    <li style="background-color: #393D49;" color="#393D49">
+                    </li>
+                </ul>
+            </div>
+            <div class="x-mid">
+                <div class="x-avtar">
+                    <img src="__STATIC__/images/logo.png" alt="">
+                </div>
+                <div class="input">
+                    <form class="layui-form">
+                        <!-- 用户名 -->
+                        <div class="layui-form-item x-login-box">
+                            <label for="username" class="layui-form-label">
+                                <i class="layui-icon">&#xe612;</i>
+                            </label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="username" name="username" required=""  placeholder="username" class="layui-input">
+                            </div>
+                        </div>
+                        <!-- 密码 -->
+                        <div class="layui-form-item x-login-box">
+                            <label for="pass" class="layui-form-label">
+                                <i class="layui-icon">&#xe628;</i>
+                            </label>
+                            <div class="layui-input-inline">
+                                <input type="password" id="password" name="password" required="" placeholder="******" class="layui-input">
+                            </div>
+                        </div>
+                        <!-- 登录按钮 -->
+                        <div class="layui-form-item" id="">
+                        <!-- 第一处错误    id="loginbtn"没写 -->
+                            <button  class="layui-btn" lay-filter="save" lay-submit="" type="button" id="loginbtn">
+                                登 录
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <p style="color:#fff;text-align: center;">Copyright © 2017.Company name All rights X-admin </p>
+
+         <!-- 导入左边菜单js -->
+        {include file='/public/base_js' /}
+
+        </script>
+        <script>
+            layui.use(['form'],
+            function() {
+                $ = layui.jquery;
+                var form = layui.form(),
+                layer = layui.layer;
+
+                $('.x-login-right li').click(function(event) {
+                    color = $(this).attr('color');
+                    $('body').css('background-color', color);
+                });
+
+                //监听提交
+                // form.on('submit(save)',
+                // function(data) {
+                //     console.log(data);
+                //     layer.alert(JSON.stringify(data.field), {
+                //       title: '最终的提交信息'
+                //     },function  () {
+                //         location.href = "./index.html";
+                //     })
+                //     return false;
+                // });
+
+            });
+
+        </script>
+        <script type="text/javascript">
+
+                $(function(){
+                    // 登录按钮的点击事件
+                    $("#loginbtn").on('click',function(){
+                        $.ajax({
+                            type:'POST',  //method：请求的类型；GET 或 POST
+                            url:"{:url('login/check')}",   //文件在服务器上的位置
+                            data:$(".layui-form").serialize(), //序列化表单值
+                            dataType:"json", //数据类型
+                            // 从服务器调用数据    第二处错误success写成succeess
+                            success:function(data){
+                                if(data.status == 1){
+                                    alert(data.message);
+                                    window.location.href = "{:url('index/index')}";
+                                }else{
+                                    alert(data.message);
+                                    window.location.href = "{:url('login/index')}";
+                                }
+                            }
+
+                        })
+                       
+
+                    })
+                })
+
+        </script>>
+    </body>
+
+</html>
